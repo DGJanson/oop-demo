@@ -1,6 +1,9 @@
 package nl.acm.datahub.oopdemo;
 
 import nl.acm.datahub.oopdemo.car.Car;
+import nl.acm.datahub.oopdemo.farmanimal.AbstractFarmAnimal;
+import nl.acm.datahub.oopdemo.farmanimal.Cow;
+import nl.acm.datahub.oopdemo.farmanimal.Sheep;
 import nl.acm.datahub.oopdemo.list.ListPrinter;
 import nl.acm.datahub.oopdemo.pet.Cat;
 import nl.acm.datahub.oopdemo.pet.Dog;
@@ -55,12 +58,14 @@ public class Oopdemo {
         specificAList.add(55);
         printer.printList(specificAList);
 
+        // Small quiz
         // Which of the following statements will crash the application (compiler actually)?
         // Try at your own risk ;)
+
         // ArrayList<Integer> optionA = new List<>();
         // List<Integer> optionB = new LinkedList<>();
         // LinkedList<Integer> optionC = new LinkedList<>();
-        // ArrayList<Integer> optionC = new LinkedList<>();
+        // ArrayList<Integer> optionD = new LinkedList<>();
     }
 
     private void doPetStuff () {
@@ -70,13 +75,13 @@ public class Oopdemo {
         shelter.add(new Dog("GoodBoy"));
         shelter.add(new Cat("FelixTheGreat"));
 
-        // We can also first create a specific object and add it to the more general list:
+        // We can also first create a subclass-type object and add it to parentclass-type list:
         Mouse pinky = new Mouse("Pinky");
-        pinky.setUnpettable();
+        pinky.setUnpettable(); // method from parent class!
         shelter.add(pinky);
 
         // We can call all methods defined in the Pet class on the objects in the list.
-        // The exact implementation used differs per subclass used during instantiation
+        // The exact implementation differs per subclass used during instantiation
         for (Pet pet : shelter) {
             pet.makeSound();
         }
@@ -93,12 +98,33 @@ public class Oopdemo {
         // Note how this relates to polymporphism.
         // Which of the following statements will crash the application (compiler actually)?
         // Try at your own risk ;)
+
         // Pet jerry = new Mouse();                 // Option A
         // Mouse larry = new Mouse();               // Option B
         // Mouse andy = new Pet();                  // Option C
         // jerry.whatAreWeGoingToDoTonight();       // Option D
         // larry.whatAreWeGoingToDoTonight();       // Option E
         // andy.whatAreWeGoingToDoTonight();        // Option F
+    }
+
+    private void doAnimalStuff () {
+        // As with the pets, we can make a polymorph list.
+        // The abstract class can be used as a type, but not during instantiation!
+        // Let's see how this works:
+        List<AbstractFarmAnimal> farm = new ArrayList<>();
+        // We can add the specific implementations to the list:
+        farm.add(new Cow("Clara"));
+        farm.add(new Sheep("Shaun"));
+
+        // Note that we can NOT instantiate the abstract animal class though!
+        // the following will give an error:
+        // AbstractAnimal pablo = new AbstractAnimal("Pablo")
+
+        // As before, we can iterate over the list and call the object functions:
+        for (AbstractFarmAnimal animal : farm) {
+            animal.ruminate(); // implementation from (abstact) parent class
+            animal.makeSound(); // implementation from (concrete) sub class
+        }
     }
 
     // Entry point of the program: main method
@@ -120,6 +146,11 @@ public class Oopdemo {
         System.out.println("## Pets and polymorphism");
         System.out.println("##############################");
         demo.doPetStuff();
+
+        System.out.println("##############################");
+        System.out.println("## Abstract animals");
+        System.out.println("##############################");
+        demo.doAnimalStuff();
     }
 }
 
