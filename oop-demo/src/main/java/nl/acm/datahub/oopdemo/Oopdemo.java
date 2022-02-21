@@ -2,6 +2,10 @@ package nl.acm.datahub.oopdemo;
 
 import nl.acm.datahub.oopdemo.car.Car;
 import nl.acm.datahub.oopdemo.list.ListPrinter;
+import nl.acm.datahub.oopdemo.pet.Cat;
+import nl.acm.datahub.oopdemo.pet.Dog;
+import nl.acm.datahub.oopdemo.pet.Mouse;
+import nl.acm.datahub.oopdemo.pet.Pet;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -51,12 +55,50 @@ public class Oopdemo {
         specificAList.add(55);
         printer.printList(specificAList);
 
-        // Which of the following statements will crash the application (compiler actually?)
+        // Which of the following statements will crash the application (compiler actually)?
         // Try at your own risk ;)
         // ArrayList<Integer> optionA = new List<>();
         // List<Integer> optionB = new LinkedList<>();
         // LinkedList<Integer> optionC = new LinkedList<>();
         // ArrayList<Integer> optionC = new LinkedList<>();
+    }
+
+    private void doPetStuff () {
+        // Polymorphism means we can add specific implementations to a parent type.
+        // For example, we can create a list of pets with specific implementations. Like so:
+        List<Pet> shelter = new ArrayList<>();
+        shelter.add(new Dog("GoodBoy"));
+        shelter.add(new Cat("FelixTheGreat"));
+
+        // We can also first create a specific object and add it to the more general list:
+        Mouse pinky = new Mouse("Pinky");
+        pinky.setUnpettable();
+        shelter.add(pinky);
+
+        // We can call all methods defined in the Pet class on the objects in the list.
+        // The exact implementation used differs per subclass used during instantiation
+        for (Pet pet : shelter) {
+            pet.makeSound();
+        }
+
+        // Note that the pet class is creatable as well!
+        Pet genericPet = new Pet("John Doe");
+        genericPet.setUnpettable();
+        genericPet.makeSound();
+        // this is probably not desirable behaviour, see abstract classes for how to deal with this
+
+        // Remember we have a Mouse called Pinky. The Mouse class has a unique function:
+        pinky.whatAreWeGoingToDoTonight();
+
+        // Note how this relates to polymporphism.
+        // Which of the following statements will crash the application (compiler actually)?
+        // Try at your own risk ;)
+        // Pet jerry = new Mouse();                 // Option A
+        // Mouse larry = new Mouse();               // Option B
+        // Mouse andy = new Pet();                  // Option C
+        // jerry.whatAreWeGoingToDoTonight();       // Option D
+        // larry.whatAreWeGoingToDoTonight();       // Option E
+        // andy.whatAreWeGoingToDoTonight();        // Option F
     }
 
     // Entry point of the program: main method
@@ -73,5 +115,11 @@ public class Oopdemo {
         System.out.println("## Lists and polymorphism");
         System.out.println("##############################");
         demo.doListStuff();
+
+        System.out.println("##############################");
+        System.out.println("## Pets and polymorphism");
+        System.out.println("##############################");
+        demo.doPetStuff();
     }
 }
+
