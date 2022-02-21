@@ -127,6 +127,41 @@ public class Oopdemo {
         }
     }
 
+    private void doStaticStuff () {
+        // Remember the list printer we made to print an interger list?
+        // Lets make a list first
+        List<Integer> iList = new ArrayList<>();
+        iList.add(1);
+        iList.add(1);
+        iList.add(2);
+        iList.add(3);
+        iList.add(5);
+
+        // To print this list we first created the listprinter object:
+        ListPrinter printer = new ListPrinter();
+        // then we use a function from the object to print the list:
+        printer.printList(iList);
+        // However, this feels a bit cumbersome:
+        // Why do we need to create an object when only calling a function on it once.
+        // Even more, we create an object, but do not need any instance specific variables.
+        // For these kind of situations Java supports static variables and methods.
+        // Static means not related to an instance of an object, but rather to its class.
+        // You can call static methods directly on the class:
+        ListPrinter.printListStatic(iList);
+
+        // A static variable is shared among all instances (objects) and static methods of a class
+        // This includes subclasses, except in some case.
+        // Tread with care and test carefully when using static variables and polymorphism!!!!
+        // Or better yet, do not mix the two :)
+        // Anyways, there is always only a single value of a static variable.
+        // The TOTALSUM in the printer is shared by instance and static methods:
+        System.out.println(String.format("Total sum is: %d", ListPrinter.getTotalSum()));
+        ListPrinter.printListStatic(iList); // Static method
+        System.out.println(String.format("Total sum is: %d", ListPrinter.getTotalSum()));
+        printer.printList(iList); // Instance (object) method
+        System.out.println(String.format("Total sum is: %d", ListPrinter.getTotalSum()));
+    }
+
     // Entry point of the program: main method
     public static void main (String[] args) {
         System.out.println("OOP demo start");
@@ -151,6 +186,11 @@ public class Oopdemo {
         System.out.println("## Abstract animals");
         System.out.println("##############################");
         demo.doAnimalStuff();
+
+        System.out.println("##############################");
+        System.out.println("## Static methods");
+        System.out.println("##############################");
+        demo.doStaticStuff();
     }
 }
 

@@ -10,16 +10,24 @@ import java.util.List;
  */
 public class ListPrinter {
 
+    private static int TOTALSUM = 0; // Static variable
+
     public static void printListStatic (List<Integer> listToPrint) {
         System.out.println("Printing list:");
         for (Integer itp : listToPrint) {
+            TOTALSUM = TOTALSUM + itp;
             System.out.println(itp);
         }
+    }
+
+    public static int getTotalSum () {
+        return TOTALSUM;
     }
 
     public void printList (List<Integer> listToPrint) {
         System.out.println("Printing list:");
         for (Integer itp : listToPrint) {
+            TOTALSUM = TOTALSUM + itp; // Static variables can be accessed from instance methods
             System.out.println(itp);
         }
     }
